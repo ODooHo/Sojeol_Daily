@@ -15,10 +15,11 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder passwordEncoder;
-    public UserDto join(String userEmail, String password, String nickname){
+
+    public UserDto join(String userEmail, String password, String nickname) {
         userRepository.findByUserEmail(userEmail).ifPresent(
-                it-> {
-                 throw new CustomApplicationException(ErrorCode.DUPLICATED_USER_EMAIL,String.format("user email is %s",userEmail));
+                it -> {
+                    throw new CustomApplicationException(ErrorCode.DUPLICATED_USER_EMAIL, String.format("user email is %s", userEmail));
                 }
         );
         UserEntity userEntity = userRepository.save(UserEntity.of(userEmail, passwordEncoder.encode(password), nickname));
